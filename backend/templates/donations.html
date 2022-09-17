@@ -1,0 +1,57 @@
+{% extends "page1.html" %}
+
+{% block header %}
+<a href="../">Проекты</a>
+/
+<a href="project?id={{ project.id }}">{{ project.name }}</a>
+/
+Пожертвования
+{% endblock %}
+
+{% block content %}
+
+<center>
+    <div class="row col-12">
+        <div class="col-12"><center>
+            <h1>Пожертваования</h1>
+        </center></div>
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6 col-md-12 col-cm-12">
+            {% if donations.__len__() == 0 %}
+                <center>
+                    <p>Пока нет пожертвований на этот проект :(</p>
+                </center>
+            {% else %}
+                <div class="row table-responsive justify-content-center"><center>
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <td>ID</td>
+                            <td>ФИО</td>
+                            <td>Сумма</td>
+                            <td>Другая информация</td>
+                            <td>Статус</td>
+                            <td>Платёж</td>
+                            <td>Время</td>
+                        </tr>
+                        {% for donation in donations %}
+                        <tr>
+                            <td>{{ donation.id }}</td>
+                            <td>{{ donation.name }}</td>
+                            <td>{{ donation.amount }}</td>
+                            <td>{{ donation.other_info }}</td>
+                            <td>{{ donation.get_status() }}</td>
+                            <td>{{ donation.payment }}</td>
+                            <td>{{ donation.get_time() }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </center></div>
+                <center>
+                    <a href="update_donations?id={{ project.id }}">Обновить</a>
+                 </center>
+            {% endif %}
+        </div>
+    </div>
+</center>
+
+{% endblock %}

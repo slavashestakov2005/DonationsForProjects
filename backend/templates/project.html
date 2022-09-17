@@ -1,0 +1,46 @@
+{% extends "page1.html" %}
+
+{% block header %}
+<a href="../">Проекты</a>
+/
+{{ project.name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="row col-12 justify-content-center">
+    <div class="col-12"><center>
+        <h1>{{ project.name }}</h1>
+    </center></div>
+    <div class="w-100"></div>
+    <div class="col-lg-6">
+        <center>
+            <p>Нужно: {{ project.cost }} &#8381;</p>
+            <p>Собрано: {{ project.received }} &#8381;</p>
+            <p><img src="Images/{{ project.photo }}"></p>
+        </center>
+        <p>{{ project.description }}</p>
+        <br>
+        <p>Автор идеи (заказчик): {{ project.author }}</p>
+        <p>Исполнитель: {{ project.executor }}</p>
+    </div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2">
+        <h2>Пожертвовать</h2>
+        <form action="donate" method="post">
+            <p class="invisible"><input type="text" name="id" value="{{ project.id }}" hidden></p>
+            <p><input type="text" name="name" placeholder="Автор пожертвования"></p>
+            <p><input type="number" name="amount" min="1" max="100000" placeholder="Сумма (&#8381;)"></p>
+            <p><input type="text" name="other_info" placeholder="Дополнительное сообщение"></p>
+            {% if error_donate %} <p class="error">[ {{ error_donate }} ]</p>
+            {% endif %}
+            <input type="submit" value="Пожертвовать">
+            <p>Нажимая на кнопку «Пожертвовать», Вы соглашаетесь с <a href="../Info/privacy_policy.html" target="_blank">правилами обработки данных</a>.</p>
+        </form>
+        {% if url %}<p>Пожертвуйте деньги, оплатив счёт по <a href="{{ url }}" target="_blank">ссылке</a>.</p>
+        {% elif msg %}<p class="error">{{ msg }}</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

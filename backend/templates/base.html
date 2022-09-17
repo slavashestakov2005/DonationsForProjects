@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        {% if current_user.is_anonymous %} {% set anon = True %} {% else %} {% set anon = False %} {% endif %}
+        <meta charset="utf-8">
+        <title>Проекты</title>
+        <script src="{{ prefix }}JS/popper.min.js"></script>
+        <script src="{{ prefix }}JS/jquery.min.js"></script>
+        <script src="{{ prefix }}JS/bootstrap.min.js"></script>
+        <script src="{{ prefix }}JS/scripts.js"></script>
+        <link rel="stylesheet" href="{{ prefix }}CSS/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ prefix }}CSS/style.css">
+        <link rel="icon" href="{{ prefix }}Images/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <div class="content">
+            <div class="header_space"></div>
+            <nav class="navbar fixed-top">
+                <div class="row col-lg-12 col-md-12">
+                    <div class="col-lg-9 col-md-6 col-sm-6">
+                        <center><h1><a href="{{ prefix }}index.html">Проекты</a></h1></center>
+                    </div>
+                    <div class="dropdiv col-lg-1 col-md-2 col-sm-2">
+                        <p class="dropbtn" id="btn1" data-toggle="dropdown">Проекты</p>
+                        <div class="dropdown-menu" aria-labelledby="btn1">
+                            <a class="dropdown-item" href="{{ prefix }}index.html">Предложить</a>
+                            <!-- list of types (1) -->
+                            {% for project in projects %}
+                                {% if project.is_public() %}
+                                    <a class="dropdown-item" href="{{ prfix }}/project?id={{ project.id }}">{{ project.name }}</a>
+                                {% endif %}
+                            {% endfor %}
+							<!-- end -->
+                        </div>
+                    </div>
+                    <div class="dropdiv col-lg-1 col-md-2 col-sm-2">
+                        <p class="dropbtn" id="btn2" data-toggle="dropdown">О нас</p>
+                        <div class="dropdown-menu" aria-labelledby="btn2">
+                            <a class="dropdown-item" href="{{ prefix }}Info/reviews.html">Отзывы</a>
+                            <a class="dropdown-item" href="{{ prefix }}Info/description.html">Описание</a>
+                            <a class="dropdown-item" href="{{ prefix }}Info/privacy_policy.html">Конфиденциальность</a>
+                            <a class="dropdown-item" href="{{ prefix }}Info/author.html">Авторство сайта</a>
+                        </div>
+                    </div>
+                    <div class="dropdiv col-lg-1 col-md-2 col-sm-2">
+                        <p class="dropbtn" id="btn3" data-toggle="dropdown">
+                            {% if anon %} Аккаунт
+                            {% else %} {{ current_user.login }}
+                            {% endif %}
+                        </p>
+                        <div class="dropdown-menu right" aria-labelledby="btn3">
+                            {% if anon %}
+                                <a class="dropdown-item" href="{{ prefix }}login.html">Войти</a>
+                            {% else %}
+                                <a class="dropdown-item" href="{{ prefix }}projects">Проекты</a>
+                                <a class="dropdown-item" href="{{ prefix }}users">Пользователи</a>
+                                <a class="dropdown-item" href="{{ prefix }}logout">Выйти</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-6 col-sm-6"><font size="3">{% block header %}{% endblock %}</font></div>
+            </nav>
+            {% block cont %}{% endblock %}
+            <div class="footer_space"></div>
+        </div>
+        <div class="footer">
+            <center>
+                <br/>
+                Автор: Шестаков Вячеслав Григорьевич 10 «И».<br/>
+                Связь: v.shestakov@student.univers.su<br/>
+            </center>
+        </div>
+    </body>
+</html>
